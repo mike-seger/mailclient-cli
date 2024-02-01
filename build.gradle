@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Replace with Jakarta Mail
+    implementation 'com.sun.mail:jakarta.mail:2.0.1'
+    implementation 'commons-cli:commons-cli:1.4'
+}
+
+application {
+    mainClassName = 'com.net128.app.mail.cli.Client'
+}
+
+// Configuration for creating a runnable JAR
+shadowJar {
+    archiveBaseName.set('mail.cli-app')
+    archiveVersion.set('0.1.0')
+    archiveClassifier.set('')
+}
+
+sourceCompatibility = '17'
+targetCompatibility = '17'
