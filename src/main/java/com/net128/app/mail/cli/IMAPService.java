@@ -8,7 +8,10 @@ import jakarta.mail.search.FlagTerm;
 import java.io.*;
 import java.util.Properties;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
 
 public class IMAPService {
     private String user;
@@ -89,11 +92,16 @@ public class IMAPService {
         var fromAddresses = message.getFrom();
         var from = (fromAddresses != null && fromAddresses.length > 0) ? fromAddresses[0].toString() : "Unknown Sender"; // Handle null or empty 'From' header
 
+        var toAddresses = message.getRecipients(Message.RecipientType.TO);
+        var to = (toAddresses != null && toAddresses.length > 0) 
+            ? Arrays.stream(toAddresses).map(Address::toString).collect(Collectors.joining(", ")) 
+            : "Unknown Recipient";
+
         var content = getTextFromMessage(message);
 
         folder.close(false);
 
-        return String.format("Subject: %s\nFrom: %s\n\nContent:\n%s", subject, from, content);
+        return String.format("Subject: %s\nFrom: %s\nTo: %s\n\nContent:\n%s", subject, from, to, content);
     }
     
     public boolean deleteMessage(int messageId, String boxName) {
