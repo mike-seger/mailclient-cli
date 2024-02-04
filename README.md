@@ -1,8 +1,7 @@
 # Running a standalone test mail server
 - https://greenmail-mail-test.github.io/greenmail/#deploy_standalone
 ```
-java -Dgreenmail.smtp.hostname=0.0.0.0 -Dgreenmail.setup.test.all \
-	-jar $(find $(dirname "$0") -name "greenmail*.jar")
+java -Dgreenmail.smtp.hostname=0.0.0.0 -Dgreenmail.setup.test.all -jar "greenmail*.jar"
 ```
 
 # Testing the mailclient
