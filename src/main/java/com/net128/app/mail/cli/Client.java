@@ -27,12 +27,11 @@ public class Client {
         var imapHost = props.getProperty("imap-host");
         var imapPort = props.getProperty("imap-port");
 
-        var imapService = new IMAPService(user, password, imapHost, imapPort);
         var smtpHost = props.getProperty("smtp-host");
         var smtpPort = props.getProperty("smtp-port");
         var smtpService = new SMTPService(smtpHost, smtpPort, user, password, false);
 
-        try {
+        try (var imapService = new IMAPService(user, password, imapHost, imapPort)) {
             if(!"send".equals(args[0])) imapService.connect();
             switch (args[0]) {
                 case "boxes":
@@ -79,12 +78,6 @@ public class Client {
             }
         } catch (MessagingException | IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                imapService.close();
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
         }
     }
 }

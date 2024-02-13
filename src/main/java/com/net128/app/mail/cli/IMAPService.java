@@ -13,12 +13,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class IMAPService {
-    private String user;
-    private String password;
-    private String imapHost;
-    private String imapPort;
-    private Session session;
+public class IMAPService implements AutoCloseable {
+    private final String user;
+    private final String password;
+    private final String imapHost;
+    private final String imapPort;
     private Store store;
 
     public IMAPService(String user, String password, String imapHost, String imapPort) {
@@ -35,7 +34,7 @@ public class IMAPService {
         properties.put("mail.imap.port", imapPort);
         properties.put("mail.imap.ssl.enable", "false");
 
-        session = Session.getInstance(properties);
+        Session session = Session.getInstance(properties);
         store = session.getStore();
         store.connect(imapHost, Integer.parseInt(imapPort), user, password);
     }
