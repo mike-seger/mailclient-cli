@@ -1,10 +1,10 @@
 # Running a standalone test mail server
 - https://greenmail-mail-test.github.io/greenmail/#deploy_standalone
 ```
-java -Dgreenmail.smtp.hostname=0.0.0.0 -Dgreenmail.setup.test.all -jar "greenmail*.jar"
+./gradlew runGreenMail &
 ```
 
-# Testing the mailclient
+# Testing the mail client
 ```bash
 java -jar build/libs/mail.cli-app-0.1.0.jar send user1@abc.com user0@abc.com Test 'Test\n000'
 java -jar build/libs/mail.cli-app-0.1.0.jar send user2@abc.com user0@abc.com Test 'Test\n000'

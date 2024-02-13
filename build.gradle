@@ -8,17 +8,27 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    greenmail
+}
+
 dependencies {
-    // Replace with Jakarta Mail
     implementation 'com.sun.mail:jakarta.mail:2.0.1'
     implementation 'commons-cli:commons-cli:1.4'
+
+    greenmail 'com.icegreen:greenmail-standalone:2.0.1'
+}
+
+tasks.register('runGreenmail', JavaExec) {
+    systemProperties.put("greenmail.smtp.hostname", "0.0.0.0")
+    systemProperties.put("greenmail.setup.test.all", "true")
+    classpath configurations.greenmail
 }
 
 application {
     mainClassName = 'com.net128.app.mail.cli.Client'
 }
 
-// Configuration for creating a runnable JAR
 shadowJar {
     archiveBaseName.set('mail.cli-app')
     archiveVersion.set('0.1.0')
